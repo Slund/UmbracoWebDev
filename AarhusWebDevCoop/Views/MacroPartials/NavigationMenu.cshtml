@@ -1,0 +1,88 @@
+﻿@inherits Umbraco.Web.Macros.PartialViewMacroPage
+@using Umbraco.Web
+
+
+@*
+    This snippet displays a list of links of the pages immediately under the top-most page in the content tree.
+    This is the home page for a standard website.
+    It also highlights the current active page/section in the navigation with the CSS class "current".
+*@
+
+@{ var root = Model.Content.Site(); }
+
+@{ var selection =
+                                 root
+                                 .Children
+                                 .Where(x => x.IsVisible())
+                                 .ToArray(); }
+
+@*// TODO: Replace DocTypeAlias*@
+@*@{ IPublishedContent[] articleDropdown =
+                                  Model.Content.AncestorOrSelf(1)
+                                  .Children
+                                  .Where(x => x.DocumentTypeAlias == "articlesOverview")
+                                  .First()
+                                  .Children
+                                  .Where(x => x.IsVisible())
+                                  .OrderBy(x => x.Name).ToArray(); }
+
+@{ IPublishedContent[] projectDropdown =
+                                Model.Content.AncestorOrSelf(1)
+                                .Children
+                                .Where(x => x.DocumentTypeAlias == "projectsOverview")
+                                .First()
+                                .Children
+                                .Where(x => x.HasValue("projectStatus") && Umbraco.GetPreValueAsString(x.GetPropertyValue<int>("projectStatus")) == "Completed")
+                                .Where(x => x.IsVisible())
+                                .OrderBy(x => x.Name).ToArray(); }*@
+
+@if (selection.Length > 0)
+{
+    foreach (var item in selection)
+    {
+        var isProtected = umbraco.library.IsProtected(item.Id, item.Path);
+        var loginAccess = umbraco.library.IsProtected(item.Id, item.Path) && umbraco.library.HasAccess(item.Id, item.Path);
+
+        if (!isProtected || loginAccess)
+        {
+           <li class="nav-item @(item.IsAncestorOrSelf(Model.Content) ? "active" : null)">
+                <!-- // TODO: Smarter select of childs and project Items -->
+                @if (item.Children().Where(x => x.IsVisible()).Count() > 0)
+                {
+                <li class="nav-item dropdown">
+                    <a href="@item.Url" class="nav-link dropdown-toggle" id="navbarDropdownMenuLink" @*data-toggle="dropdown"*@ aria-haspopup="true" aria-expanded="false">
+                        @item.Name
+                    </a>
+                    <div class="dropdown-menu" aria-labelledby="navbarDropdownMenuLink">
+                        @foreach (var subMenuItem in item.Children().Where(x => x.IsVisible()))
+                        {
+                            var isSubProtected = umbraco.library.IsProtected(subMenuItem.Id, subMenuItem.Path);
+                            var subLoginAccess = umbraco.library.IsProtected(subMenuItem.Id, subMenuItem.Path) && umbraco.library.HasAccess(subMenuItem.Id, subMenuItem.Path);
+
+
+                            if (subMenuItem.DocumentTypeAlias == "projectItem")
+                            {
+                                if (umbraco.library.GetPreValueAsString(subMenuItem.GetPropertyValue<int>
+                                    ("projectStatus")) == "Completed" && !isSubProtected || subLoginAccess)
+                                {
+                                    //Show project item
+                                    <a class="dropdown-item" href="@subMenuItem.Url">@subMenuItem.Name</a>
+                                }
+                            }
+                            else
+                            {
+                                // Show submenu
+                                <a class="dropdown-item" href="@subMenuItem.Url">@subMenuItem.Name</a>
+                            }
+                        }
+                    </div>
+                </li>
+                }
+                else
+                {
+                    <a class="nav-link" href="@item.Url">@item.Name</a>
+                }
+            </li>
+        }
+    }
+}

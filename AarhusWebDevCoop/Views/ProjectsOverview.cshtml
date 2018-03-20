@@ -1,0 +1,36 @@
+﻿@inherits Umbraco.Web.Mvc.UmbracoTemplatePage<ContentModels.ProjectsOverview>
+@using ContentModels = Umbraco.Web.PublishedContentModels;
+@{
+    Layout = "Master.cshtml";
+}
+
+<div class="col-md-12"><h2>@Umbraco.Field("projectsTitle")</h2></div>
+
+<div class="col-md-12"><p>@Umbraco.Field("projectsBodyText")</p></div>
+
+@{ var selection = Model.Content.Children.Where(x => x.IsVisible()).OrderBy(x => x.Name).ToArray(); }
+
+@helper Truncate(string input, int length)
+    {
+        if (input.Length <= length)
+        {
+            @Html.Raw(input)
+        }
+        else
+        {
+            @Html.Raw(input.Substring(0, length))<text>...</text>
+        }
+}
+
+@if (selection.Length > 0)
+{
+    foreach (var item in selection)
+    {
+        <div class="col-md-4">
+            <h4>@item.Name</h4>
+            @{var proDes = item.GetPropertyValue("projectDescription").ToString();
+            }
+            <p>@Truncate(proDes, 175) <a href="@item.Url"> Læs mere</a></p>
+        </div>
+    }
+}

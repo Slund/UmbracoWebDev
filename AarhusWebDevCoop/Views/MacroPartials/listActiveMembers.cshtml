@@ -1,0 +1,51 @@
+﻿@inherits Umbraco.Web.Macros.PartialViewMacroPage
+@using Umbraco.Web;
+@using Newtonsoft.Json;
+@using Umbraco.Web.Models;
+
+@{ var memberService = ApplicationContext.Current.Services.MemberService;
+    var members = memberService.GetMembersByGroup("Active");
+
+
+}
+
+<div class="row col-md-12">
+    @foreach (var member in members)
+    {
+        String[] skills = member.GetValue("skills").ToString().Split(',');
+
+        string skillString =
+        string.Join(", ", from skill in skills
+                          select umbraco.library.GetPreValueAsString(Convert.ToInt32(skill)));
+
+        <div class="col-md-6">
+            <p>
+                @member.Name <br>
+                @member.GetValue("address") <br>
+                @member.GetValue("zip") @member.GetValue("city") <br />
+                Email: @member.Email<br>
+                Skills: @skillString
+            </p>
+        </div>
+
+
+        if (member.GetValue("photo") != null)
+        {
+            string image = member.GetValue<string>("photo");
+            if (image != null)
+            {
+                ImageCropDataSet imageCrop = JsonConvert.DeserializeObject<ImageCropDataSet>(image); string imagePath = imageCrop.Src.GetCropUrl(width: 150);
+                <img src="@imagePath" />
+            }
+        }
+
+        if (member.HasProperty("photo2") != null)
+            {
+            IPublishedContent mediaItem = Umbraco.TypedMedia(member.GetValue("photo2"));
+
+            <div class="col-md-3 offset-md-3" style="max-width: 100%; height: auto;">
+                <img src="@mediaItem.Url" alt="" class="img-fluid" />
+            </div>
+            }
+    }
+</div>

@@ -1,0 +1,40 @@
+﻿{
+	"gridEditors": [
+		{
+			"name": "Wide Image",
+			"alias": "wideImage",
+			"view": "media",
+			"icon": "icon-picture",
+			"config": {
+				"size": {
+					"height": 400,
+					"width": 1200
+				}
+			}
+		},
+		{
+			"name": "Narrow Image",
+			"alias": "narrowImage",
+			"view": "media",
+			"icon": "icon-picture",
+			"config": {
+				"size": {
+					"height": 400,
+					"width": 400
+				}
+			}
+		},
+		{
+			"name": "WideAF",
+			"alias": "wideAF",
+			"view": "media",
+			"icon": "icon-picture",
+			"config": {
+				"size": {
+					"height": 400,
+					"width": 1500
+				}
+			}
+		}
+	]
+}

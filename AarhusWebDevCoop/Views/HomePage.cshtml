@@ -1,0 +1,29 @@
+﻿@inherits Umbraco.Web.Mvc.UmbracoTemplatePage<ContentModels.HomePage>
+@using ContentModels = Umbraco.Web.PublishedContentModels;
+@{
+    Layout = "Master.cshtml";
+}
+<div class="row">
+    <div class="col-lg-12" style="padding-bottom:10px;">
+        <h2>@Umbraco.Field("siteTitle")</h2>
+    </div>
+    <div class="col-md-6" style="max-width: 100%; height: auto;">
+        <img src="@Umbraco.Media(@CurrentPage.logo.ToString()).Url" alt="" class="img-fluid" />
+    </div>
+    <div class="col-md-6">
+        <p>
+            @Umbraco.Field("mainContent")
+        </p>
+    </div>
+
+    <div class="col-md-12">
+        <hr />
+        @Umbraco.Field("footer")
+    </div>
+
+    <div class="col-md-12">
+        <br><hr />
+
+        @Umbraco.RenderMacro("listNewestProjects", new { numOfProjects = "5" })
+    </div>
+</div>

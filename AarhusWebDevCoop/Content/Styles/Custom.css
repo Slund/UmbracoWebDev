@@ -1,0 +1,7 @@
+﻿.dropdown:hover .dropdown-menu {
+    display: block;
+}
+
+.field-validation-error {
+    color: red;
+}
