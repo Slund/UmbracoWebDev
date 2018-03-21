@@ -4,15 +4,15 @@
 @{ int numOfProjects = Convert.ToUInt16(Model.MacroParameters["numOfProjects"]); }
 
 @{ var selection =
-             Model.Content.Site()
-             .Children
-             .Where(x => x.DocumentTypeAlias == "projectsOverview")
-             .First()
-             .Children
-             .Where(x => x.GetPropertyValue<int>("projectStatus") == 48)
-             .OrderBy(x => x.CreateDate)
-             .Take(numOfProjects)
-             .ToArray(); }
+              Model.Content.Site()
+              .Children
+              .Where(x => x.DocumentTypeAlias == "projectsOverview")
+              .First()
+              .Children
+              .Where(x => x.HasValue("projectStatus") && Umbraco.GetPreValueAsString(x.GetPropertyValue<int>("projectStatus")) == "Completed")
+              .OrderBy(x => x.CreateDate)
+              .Take(numOfProjects)
+              .ToArray(); }
 
 <h4>All completed projects:</h4>
 @foreach (var item in selection)
