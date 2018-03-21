@@ -1,0 +1,16 @@
+﻿@import "../bootstrap/bootstrap.scss";
+
+// Dropdown at hover
+.dropdown:hover .dropdown-menu {
+    display: block;
+}
+
+
+// Validation error fields
+.field-validation-error {
+    color: red;
+}
+
+.validation-summary-errors {
+    color: red;
+}
