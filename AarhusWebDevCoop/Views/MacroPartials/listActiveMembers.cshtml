@@ -27,7 +27,7 @@
         </div>
 
 
-        if (member.GetValue("photo") != null)
+        @*if (member.GetValue("photo") != null)
         {
             string image = member.GetValue<string>("photo");
             if (image != null)
@@ -35,7 +35,7 @@
                 ImageCropDataSet imageCrop = JsonConvert.DeserializeObject<ImageCropDataSet>(image); string imagePath = imageCrop.Src.GetCropUrl(width: 150);
                 <img src="@imagePath" />
             }
-        }
+        }*@
 
         if (member.HasProperty("photo2") != null)
             {

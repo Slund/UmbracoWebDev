@@ -17,17 +17,25 @@
     </head>
 
     <body>
-        <nav class="navbar navbar-dark navbar-expand-lg bg-dark">
-            <a class="navbar-brand" href="/Homepage">Home</a>
-            <button class="navbar-toggler" type="button" data-toggle="collapse" data-target="#navbarNavDropdown" aria-controls="navbarNavDropdown" aria-expanded="false" aria-label="Toggle navigation">
-                <span class="navbar-toggler-icon"></span>
-            </button>
+        <nav class="navbar navbar-expand-md navbar-dark bg-info">
+            <div class="container">
+                <a class="navbar-brand" href="/Homepage">DevsAarhus</a>
+                <button class="navbar-toggler" type="button" data-toggle="collapse" data-target="#navbarNavDropdown" @*aria-controls="navbarNavDropdown" aria-expanded="false" aria-label="Toggle navigation"*@>
+                    <span class="navbar-toggler-icon"></span>
+                </button>
 
-            <div class="collapse navbar-collapse" id="navbarNavDropdown">
-                <ul class="navbar-nav">
-                    @Umbraco.RenderMacro("NavigationMenu")
-                </ul>
+                <div class="navbar-collapse collapse" id="navbarNavDropdown">
+                    <ul class="navbar-nav ml-auto">
+                        @Umbraco.RenderMacro("NavigationMenu")
+                    </ul>
+                    <ul class="navbar-nav ml-auto">
+                        <li class="nav-item">
+                            <a class="nav-link" href="/Umbraco">Admin</a>
+                        </li>
+                    </ul>
+                </div>
             </div>
+
         </nav>
 
         <div class="container">
@@ -41,6 +49,7 @@
 
         <script src="~/Scripts/jquery.validate.min.js"></script>
         <script src="~/Scripts/jquery.validate.unobtrusive.min.js"></script>
+
     </body>
 
 </html>

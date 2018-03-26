@@ -24,13 +24,21 @@
 
 @if (selection.Length > 0)
 {
+
+
     foreach (var item in selection)
     {
+        var isProtected = umbraco.library.IsProtected(item.Id, item.Path);
+        var loginAccess = umbraco.library.IsProtected(item.Id, item.Path) && umbraco.library.HasAccess(item.Id, item.Path);
+
+        if (!isProtected || loginAccess)
+        {
         <div class="col-md-4">
             <h4>@item.Name</h4>
             @{var proDes = item.GetPropertyValue("projectDescription").ToString();
             }
             <p>@Truncate(proDes, 175) <a href="@item.Url"> Læs mere</a></p>
         </div>
+        }
     }
 }

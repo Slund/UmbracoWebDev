@@ -1,10 +1,15 @@
 ﻿@import "../bootstrap/bootstrap.scss";
 
+// Navbar
+.navbar {
+    min-height: 80px;
+    margin-bottom: 20px;
+}
+
 // Dropdown at hover
 .dropdown:hover .dropdown-menu {
     display: block;
 }
-
 
 // Validation error fields
 .field-validation-error {
